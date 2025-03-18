@@ -1,0 +1,46 @@
+<section class="frame">
+    <h1>Edit Inventory Item</h1>
+
+    <%- messages() %> <!-- Display flash messages -->
+
+    <% if (errors) { %>
+        <ul class="notice">
+            <% errors.forEach(error => { %>
+                <li><%= error.msg %></li>
+            <% }) %>
+        </ul>
+    <% } %>
+    <p>Confirm Deletion - The deletion is permanent.</p>
+    <form action="/inv/delete" method="post" id="deleteForm" class="form-container">
+        <input type="hidden" name="inventoryId" value="<%= locals.inv_id %>">
+        
+        <label for="make">Make:</label>
+        <input type="text" name="inv_make" readonly
+        <% if(locals.inv_make) { %> value="<%= locals.inv_make %>"
+        <% } %>>
+
+        <label for="model">Model:</label>
+        <input type="text" name="inv_model" readonly
+        <% if(locals.inv_model) { %> value="<%= locals.inv_model %>"
+        <% } %>>
+
+        <label for="year">Year:</label>
+        <input type="number" name="inv_year" readonly min="1886" max="2023"
+        <% if(locals.inv_year) { %> value="<%= locals.inv_year %>"
+        <% } %>>
+
+
+        <label for="price">Price:</label>
+        <input type="text" name="inv_price" readonly min="0" step="0.01"
+        <% if(locals.inv_price) { %> value="<%= locals.inv_price %>"
+        <% } %>>
+
+        <input type="submit" name="submit" value="Delete Vehicle">
+    
+        <input type="hidden" name="inv_id"
+        <% if(locals.inv_id) { %> value="<%= locals.inv_id %>"
+        <% } %>>
+    </form>
+
+    <noscript>JavaScript must be enabled to use this page.</noscript>
+</section>
