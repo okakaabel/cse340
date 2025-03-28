@@ -1,4 +1,4 @@
-const utilities = require("../utilities/"); // Make sure utilities.js is at the correct path
+const utilities = require("../utilities"); // Make sure utilities.js is at the correct path
 const baseController = {}
 
 baseController.buildHome = async function(req, res) {
