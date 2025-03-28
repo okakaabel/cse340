@@ -1,10 +1,10 @@
-const pool = require("../database/")
+const pool = require("../database/");
 
 /* ***************************
  *  Get all classification data
  * ************************** */
-async function getClassifications(){
-  return await pool.query("SELECT * FROM public.classification ORDER BY classification_name")
+async function getClassifications() {
+  return await pool.query("SELECT * FROM public.classification ORDER BY classification_name");
 }
 
 /* ***************************
@@ -18,10 +18,10 @@ async function getInventoryByClassificationId(classification_id) {
       ON i.classification_id = c.classification_id  
       WHERE i.classification_id = $1`,
       [classification_id]
-    )
-    return data.rows
+    );
+    return data.rows;
   } catch (error) {
-    console.error("getclassificationsbyid error " + error)
+    console.error("getInventoryByClassificationId error: " + error);
   }
 }
 
@@ -68,23 +68,20 @@ const updateInventory = async (data) => {
   }
 };
 
-
 /* ***************************
- *  Get all deatails on a specific vehicle by inventory id
+ *  Get all details on a specific vehicle by inventory id
  * ************************** */
 async function getDetailByVehicleId(inv_id) {
   try {
     const data = await pool.query(
-      `SELECT * FROM public.inventory
-      WHERE inv_id = $1`,
+      `SELECT * FROM public.inventory WHERE inv_id = $1`,
       [inv_id]
     );
     return data.rows[0];
   } catch (error) {
-    console.error("Get Details By Vehicle Id error " + error);
+    console.error("Get Detail By Vehicle Id error: " + error);
   }
 }
-
 
 /* ***************************
  *  Add Classification if not already in system
@@ -165,7 +162,6 @@ const deleteInventoryById = async (inv_id) => {
     throw err;
   }
 };
-
 
 module.exports = { 
   deleteInventoryById, 
