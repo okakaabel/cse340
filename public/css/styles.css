@@ -212,6 +212,7 @@ body {
     text-align: left;
     margin-bottom: 5px;
 }
+
 .form-container input {
     width: 100%;
     padding: 10px;
@@ -234,6 +235,7 @@ body {
 .form-container button:hover {
     background-color: #bdc3c7;
 }
+
 .form-container a {
     color: #3498db;
     text-decoration: none;
@@ -306,12 +308,36 @@ body {
         grid-template-columns: 1fr 1fr 1fr;
         list-style-type: none;
     }
+
     .vehicle-info {
         display: flex;
         align-items: center;
     }
+
     .vehicle-details {
         margin-left: 10px;
+    }
+}
+
+/* Responsive Design for Vehicle Detail Page */
+@media screen and (max-width: 768px) {
+    #vehicle-details {
+        display: block;
+        margin: 0 auto;
+    }
+
+    .vehicle-container {
+        display: block;
+        text-align: center;
+    }
+
+    .vehicle-image-container img {
+        width: 100%;
+        height: auto;
+    }
+
+    .vehicle-details-container {
+        margin-top: 20px;
     }
 }
 
@@ -319,10 +345,10 @@ table {
     font-family: arial, sans-serif;
     border-collapse: collapse;
     width: 100%;
-  }
+}
   
-  td, th {
+td, th {
     border: 1px solid #dddddd;
     text-align: left;
     padding: 8px;
-  }
+}
