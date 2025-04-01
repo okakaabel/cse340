@@ -1,6 +1,32 @@
-<div id="vehicle-detail">
-    <%- vehicleHTML %> 
-</div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>Vehicle Details</h1>
+        </header>
 
-<!-- Footer-based error link -->
-<a href="/trigger-error" class="footer-error-link">Trigger Error</a>
+        <main class="vehicle-container">
+            <div class="vehicle-image-container">
+                <img src="<%= vehicle.inv_image %>" alt="<%= vehicle.inv_make %> <%= vehicle.inv_model %>">
+            </div>
+            <div class="vehicle-details-container">
+                <h2><%= vehicle.inv_make %> <%= vehicle.inv_model %></h2>
+                <p class="price">Price: $<%= vehicle.inv_price.toLocaleString() %></p>
+                <p class="mileage">Mileage: <%= vehicle.inv_miles.toLocaleString() %> miles</p>
+                <p>Description: <%= vehicle.inv_description %></p>
+            </div>
+        </main>
+
+        <footer class="footer">
+            <a href="/trigger-error">Trigger Error</a>
+        </footer>
+    </div>
+</body>
+</html>

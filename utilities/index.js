@@ -1,34 +1,67 @@
-const invModel = require("../models/inventory-model");
+const invModel = require("../models/inventoryModel");
+const jwt = require("jsonwebtoken");
+require("dotenv").config();
 
-// Build the vehicle page HTML from data
-Util.buildVehiclePage = async function (data) {
-  let vehicleTemplate = "";
+const Util = {};
 
-  if (data) {
-    vehicleTemplate += '<section id="vehicle-details">';
-
-    vehicleTemplate += '<div class="vehicle-container">';
-
-    vehicleTemplate += '<div class="vehicle-image-container">';
-    vehicleTemplate += `<img src="${data.inv_image}" alt="${data.inv_make} ${data.inv_model}">`;
-    vehicleTemplate += "</div>";
-
-    vehicleTemplate += '<div class="vehicle-details-container">';
-    vehicleTemplate += `<h2>${data.inv_make} ${data.inv_model}</h2>`;
-    vehicleTemplate += "<p>";
-    vehicleTemplate += `<strong>Year:</strong> ${data.inv_year}<br>`;
-    vehicleTemplate += `<strong>Color:</strong> ${data.inv_color}<br>`;
-    vehicleTemplate += `<strong>Miles:</strong> ${data.inv_miles}<br>`;
-    vehicleTemplate += "</p>";
-    vehicleTemplate += `<p>${data.inv_description}</p>`;
-    vehicleTemplate += `<p class="price">Price: ${data.inv_price}</p>`;
-    vehicleTemplate += "</div>";
-    vehicleTemplate += "</div>";
-    vehicleTemplate += "</section>";
-  } else {
-    vehicleTemplate =
-      '<p class="notice">Sorry, the vehicle you are looking for could not be found.</p>';
+/* ************************
+ * Constructs the nav HTML unordered list
+ ************************** */
+Util.getNav = async function () {
+  try {
+    let data = await invModel.getClassifications();
+    let list = "<ul>";
+    list += '<li><a href="/" title="Home page">Home</a></li>';
+    data.rows.forEach((row) => {
+      list += `<li><a href="/inv/type/${row.classification_id}" title="See our inventory of ${row.classification_name} vehicles">${row.classification_name}</a></li>`;
+    });
+    list += "</ul>";
+    return list;
+  } catch (error) {
+    console.error("Error building navigation:", error.message);
+    throw new Error("Could not retrieve classifications.");
   }
-
-  return vehicleTemplate;
 };
+
+/* **************************************
+ * Middleware For Handling Errors
+ ************************************** */
+Util.handleErrors = (fn) => (req, res, next) =>
+  Promise.resolve(fn(req, res, next)).catch(next);
+
+/* ****************************************
+ * Middleware to check token validity
+ **************************************** */
+Util.checkJWTToken = (req, res, next) => {
+  const token = req.cookies.jwt;
+  if (!token) {
+    res.locals.loggedIn = false;
+    return next();
+  }
+  try {
+    const decoded = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
+    res.locals.accountData = decoded;
+    res.locals.loggedIn = true;
+    res.locals.firstName = decoded.first_name;
+    res.locals.accountType = decoded.account_type;
+    return next();
+  } catch (err) {
+    req.flash("notice", "Session expired or invalid. Please log in again.");
+    res.clearCookie("jwt");
+    return res.redirect("/account/login");
+  }
+};
+
+/* ****************************************
+ * Middleware to check login
+ **************************************** */
+Util.checkLogin = (req, res, next) => {
+  if (res.locals.loggedIn) {
+    next();
+  } else {
+    req.flash("notice", "Please log in.");
+    return res.redirect("/account/login");
+  }
+};
+
+module.exports = Util;

@@ -1,18 +1,12 @@
-/******* Change Box Model ***************/
-*,
-*:before,
-*:after {
-  box-sizing: border-box;
-}
-
+/* Ensure responsiveness */
 body {
     font-family: Arial, sans-serif;
     background: url('/images/site/small_check.jpg');
-    display: flex;
-    justify-content: center;
-    align-items: center;
     margin: 0;
     padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .container {
@@ -26,329 +20,42 @@ body {
     margin-top: 50px;
 }
 
-/********** Header **********/
-.header {
+/* Responsive vehicle detail styling */
+.vehicle-container {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
     flex-wrap: wrap;
-}
-
-.header h1 {
-    font-size: 1.5rem;
-    color: #333;
-    flex: 1;
-}
-
-.header a {
-    color: #333;
-    font-size: 0.9rem;
-    text-decoration: none;
-}
-
-/********* Navigation **********/
-.nav ul {
-    background-color: #333;
-    color: white;
-    display: flex;
-    justify-content: space-around;
-    padding: 10px;
-    flex-wrap: wrap;
-    list-style-type: none;
-}
-
-.nav a {
-    color: white;
-    text-decoration: none;
-}
-
-.nav ul :hover {
-    background-color: aliceblue;
-    color: #000;
-}
-
-/********** Main content **********/
-.main-content {
-    padding: 20px;
-}
-
-.main-content h2 {
-    font-size: 2rem;
-}
-
-.car-info {
-    display: inline-block;
-    text-align: left;
-    margin-top: 20px;
-    position: relative;
-    width: 100%;
-}
-
-.car-info h3 {
-    color: #00a2e8;
-    font-size: 1.5rem;
-    margin: 0;
-}
-
-.car-info p {
-    color: #666;
-    font-size: 1rem;
-    margin: 5px 0;
-}
-
-/* Button Styling */
-.own-button {
-    display: inline-block;
-    background-color: #00a2e8;
-    color: #000;
-    padding: 10px 20px;
-    text-decoration: none;
-    font-weight: bold;
-    border: none;
-    cursor: pointer;
-    font-size: 1rem;
-    margin-top: 10px;
-    transition: background-color 0.3s;
-}
-
-.own-button:hover {
-    background-color: #007bbd;
-}
-
-/********** Hero Car Image Styling **********/
-.car-image {
-    width: 90%;
-    margin-left: 0;
-    display: inline-block;
-}
-
-.car-info-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    height: 100%;
-    background-color: rgba(255, 255, 255, 0.7);
-    margin-left: 0;
-}
-
-.car-info-overlay p {
-    color: #00a2e8;
-}
-
-/********** Upgrades and Reviews container **********/
-.content-sections {
-    display: flex;
-    margin: 0;
-    flex-direction: column;
-}
-
-.content-sections h1 {
-    grid-template-columns: 1fr;
-}
-
-/********* Delorean Upgrades *********/
-.upgrades {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
+    justify-content: center;
+    gap: 20px;
     text-align: center;
-    font-size: 0.9rem;
-    color: #00a9e0;
-    width: 100%;
 }
 
-.upgrades h1 {
-    grid-column: 1 / -1;
-    text-align: center;
-    color: #000;
-    margin-bottom: 20px;
-}
-
-.upgrade-item img {
-    width: 60%;
-    padding: 10px;
-    padding-inline-start: 0;
-    padding-inline-end: 0;
-    border: 2px solid #000b0e;
-    background-color: #00a9e0;
-}
-
-.upgrade-item a {
-    display: block;
-    color: #4300e0;
-    text-decoration: underline;
-    margin-top: 5px;
-    font-weight: bold;
-}
-
-/********** Reviews Section ********/
-.reviews {
-    width: 100%;
-    font-size: 1.2rem;
-    color: #333;
-    text-align: left;
-}
-
-.reviews p {
-    margin: 5px 0;
-}
-
-.form-container {
-    background-color: #2c3e50;
-    color: white;
+.vehicle-image-container img {
+    max-width: 100%;
+    height: auto;
     border-radius: 10px;
-    padding: 20px;
-    width: 50%;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    text-align: center;
-    border-left: 50px;
 }
 
-.form-container h1 {
-    margin-bottom: 20px;
+.vehicle-details-container {
+    flex: 1;
+    min-width: 300px;
 }
 
-.form-container label {
-    display: block;
-    text-align: left;
-    margin-bottom: 5px;
-}
-
-.form-container input {
-    width: 100%;
-    padding: 10px;
-    margin-bottom: 15px;
-    border: none;
-    border-radius: 5px;
-}
-
-.form-container button {
-    width: 100%;
-    padding: 10px;
-    background-color: #ecf0f1;
-    color: #2c3e50;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-weight: bold;
-}
-
-.form-container button:hover {
-    background-color: #bdc3c7;
-}
-
-.form-container a {
-    color: #3498db;
-    text-decoration: none;
-    font-size: 14px;
-}
-
-.form-container a:hover {
-    text-decoration: underline;
-}
-
-/******** Footer ********/
+/* Ensure footer-based error link styling */
 .footer {
     text-align: center;
     font-size: 0.8rem;
-    color: #333;
     margin-top: 20px;
 }
-
-/* Media Queries for larger screens */
-@media screen and (min-width: 769px) {
-    .container {
-        width: 900px;
-    }
-
-    .header {
-        flex-direction: row;
-    }
-
-    .car-image {
-        margin-left: 60px;
-    }
-
-    .car-info-overlay {
-        margin-left: 30px;
-    }
-
-    .content-sections {
-        flex-direction: row;
-        width: 100%;
-    }
-
-    .content-sections h1 {
-        grid-template-columns: 1fr 1fr;
-    }
-
-    .upgrades {
-        grid-template-columns: 1fr 1fr;
-    }
-
-    .reviews {
-        width: 45%;
-    }
-
-    .upgrade-item img {
-        padding-inline-start: 50px;
-        padding-inline-end: 50px;
-    }
-
-    .upgrades h1 {
-        font-size: 1.2rem;
-        margin-bottom: 15px;
-    }
-
-    .upgrades .upgrade-item a {
-        font-size: 0.9rem;
-    }
-
-    #inv-display{
-        display: grid;
-        grid-template-columns: 1fr 1fr 1fr;
-        list-style-type: none;
-    }
-
-    .vehicle-info {
-        display: flex;
-        align-items: center;
-    }
-
-    .vehicle-details {
-        margin-left: 10px;
-    }
+.footer a {
+    color: red;
+    text-decoration: none;
+}
+.footer a:hover {
+    text-decoration: underline;
 }
 
-/* Responsive Design for Vehicle Detail Page */
-@media screen and (max-width: 768px) {
-    #vehicle-details {
-        display: block;
-        margin: 0 auto;
-    }
-
-    .vehicle-container {
-        display: block;
-        text-align: center;
-    }
-
-    .vehicle-image-container img {
-        width: 100%;
-        height: auto;
-    }
-
-    .vehicle-details-container {
-        margin-top: 20px;
-    }
-}
-
-table {
-    font-family: arial, sans-serif;
-    border-collapse: collapse;
-    width: 100%;
-}
-  
-td, th {
-    border: 1px solid #dddddd;
-    text-align: left;
-    padding: 8px;
+/* Price and mileage formatting */
+.price, .mileage {
+    font-weight: bold;
+    font-size: 1.2rem;
 }
