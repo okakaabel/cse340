@@ -1,4 +1,5 @@
-const pool = require("../database");
+const database = require('../database.js');
+
 
 const invModel = {};
 
