@@ -1,5 +1,6 @@
+const fs = require('fs');
+console.log(fs.readdirSync(__dirname));  // Log files in the current directory
 const database = require('../database.js');
-
 
 const invModel = {};
 
@@ -17,7 +18,4 @@ invModel.getVehicleById = async function (inv_id) {
 
 module.exports = invModel;
 
-const fs = require('fs');
-console.log(fs.readdirSync(__dirname));  // Log files in the current directory
-const database = require('../database.js');
 
