@@ -1,6 +1,6 @@
 const fs = require('fs');
 console.log(fs.readdirSync(__dirname));  // Log files in the current directory
-const database = require('../database.js');
+const db = require('../database.js');
 
 const invModel = {};
 
