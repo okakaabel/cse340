@@ -7,6 +7,7 @@
  * Require Statements
  *************************/
 const express = require("express");
+const router = express.Router();
 const expressLayouts = require("express-ejs-layouts");
 const dotenv = require("dotenv").config();
 const app = express();
@@ -23,6 +24,8 @@ const session = require("express-session");
 const flash = require("connect-flash");
 const pgSession = require("connect-pg-simple")(session);
 const messages = require("express-messages");
+
+module.exports = router;  // Not module.exports = { router }
 
 /* ***********************
  * Middleware
@@ -87,7 +90,7 @@ app.get("/", utilities.handleErrors(baseController.buildHome));
 app.use("/account", accountRoute);
 
 // Restricted Routes
-app.use("/inv", inventoryRoute);
+app.use("/inventory", inventoryRoute);
 
 // Test Route
 app.get("/account/test", (req, res) => {
