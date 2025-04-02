@@ -4,7 +4,7 @@ const bcrypt = require("bcryptjs")
 const jwt = require("jsonwebtoken")
 require("dotenv").config()
 const { validationResult } = require("express-validator");
-const ticketModel = require("../models/supportTicket-model")
+const ticketModel = require("../models/supportTicketModel")
 
 /* ****************************************
 *  Deliver login view
