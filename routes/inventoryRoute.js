@@ -1,5 +1,6 @@
 // Needed Resources
 const express = require("express");
+const errorController = require("../controllers/errorController");
 const router = new express.Router();
 const invController = require("../controllers/invController");
 const invManagementController = require("../controllers/invManagementController");
@@ -74,8 +75,3 @@ router.post(
   ],
   utilities.handleErrors(invManagementController.addInventoryResult)
 );
-
-// Footer error handling route
-router.get("/trigger-error", errorController.triggerError);
-
-module.exports = router;
