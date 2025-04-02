@@ -13,6 +13,8 @@ const dotenv = require("dotenv").config();
 const app = express();
 const staticRoutes = require("./routes/static");
 const baseController = require("./controllers/baseController");
+const inventoryController = require('../controllers/invController');
+const inventoryController = require('../controllers/invManagementController');
 const inventoryRoute = require("./routes/inventoryRoute");
 const accountRoute = require("./routes/accountRoute");
 const errorRoute = require("./routes/errorRoute");
@@ -24,6 +26,10 @@ const session = require("express-session");
 const flash = require("connect-flash");
 const pgSession = require("connect-pg-simple")(session);
 const messages = require("express-messages");
+
+// Define routes
+router.get('/', inventoryController.getAllItems);
+router.post('/', inventoryController.createItem);
 
 module.exports = router;  // Not module.exports = { router }
 
