@@ -14,7 +14,6 @@ const app = express();
 const staticRoutes = require("./routes/static");
 const baseController = require("./controllers/baseController");
 const inventoryController = require('../controllers/invController');
-const inventoryController = require('../controllers/invManagementController');
 const inventoryRoute = require("./routes/inventoryRoute");
 const accountRoute = require("./routes/accountRoute");
 const errorRoute = require("./routes/errorRoute");
