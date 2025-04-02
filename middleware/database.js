@@ -1,6 +1,6 @@
 // inventoryModel.js
 
-const db = require('../database'); // Import the pool from database.js
+const db = require('../database/database'); // Import the pool from database.js
 
 // Example function to get all vehicles
 async function getAllVehicles() {
