@@ -1,4 +1,4 @@
-const invModel = require("../models/inventory-model");
+const invModel = require("../models/inventoryModel");
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
 
