@@ -1,4 +1,4 @@
-const inventoryModel = require('../models/inventory-model');
+const inventoryModel = require('../models/inventoryModel');
 const utilities = require('../utilities');
 
 const showVehicleDetails = (req, res, next) => {
