@@ -12,6 +12,13 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+// Global variables for header (you can adjust this logic based on actual user data)
+app.use((req, res, next) => {
+    res.locals.loggedIn = false;  // Set to `true` if user is logged in
+    res.locals.accountType = '';  // Set to actual account type if logged in (e.g., 'Employee', 'Admin')
+    next();
+});
+
 // Routes
 app.use("/inventory", inventoryRoutes);
 
