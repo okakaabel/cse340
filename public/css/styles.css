@@ -1,61 +1,53 @@
-/* Ensure responsiveness */
+/* styles.css */
 body {
     font-family: Arial, sans-serif;
-    background: url('/images/site/small_check.jpg');
     margin: 0;
     padding: 0;
+    background-color: #f8f9fa;
+    color: #333;
+}
+
+.vehicle-container {
     display: flex;
     flex-direction: column;
     align-items: center;
-}
-
-.container {
-    background-color: white;
-    border: 4px solid #00a9e0;
-    border-radius: 10px;
-    width: 90%;
-    max-width: 900px;
+    text-align: center;
     padding: 20px;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
-    margin-top: 50px;
 }
 
-/* Responsive vehicle detail styling */
-.vehicle-container {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 20px;
-    text-align: center;
-}
-
-.vehicle-image-container img {
-    max-width: 100%;
-    height: auto;
+.vehicle-container img {
+    width: 100%;
+    max-width: 600px;
     border-radius: 10px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-.vehicle-details-container {
-    flex: 1;
-    min-width: 300px;
-}
-
-/* Ensure footer-based error link styling */
-.footer {
-    text-align: center;
-    font-size: 0.8rem;
+.vehicle-details {
+    max-width: 600px;
+    padding: 20px;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    text-align: left;
     margin-top: 20px;
 }
-.footer a {
-    color: red;
-    text-decoration: none;
-}
-.footer a:hover {
-    text-decoration: underline;
+
+.vehicle-details h1 {
+    font-size: 24px;
+    margin-bottom: 10px;
 }
 
-/* Price and mileage formatting */
-.price, .mileage {
-    font-weight: bold;
-    font-size: 1.2rem;
+.vehicle-details p {
+    font-size: 18px;
+    margin: 5px 0;
+}
+
+@media (min-width: 768px) {
+    .vehicle-container {
+        flex-direction: row;
+        text-align: left;
+    }
+    .vehicle-container img {
+        margin-right: 20px;
+    }
 }
