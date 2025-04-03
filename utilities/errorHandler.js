@@ -1,4 +1,10 @@
-module.exports = (err, req, res, next) => {
+function errorHandler(err, req, res, next) {
     console.error(err.stack);
-    res.status(500).render("errors/500", { title: "500 - Server Error" });
-};
+    if (err.status === 404) {
+        res.status(404).render("errors/404");
+    } else {
+        res.status(500).render("errors/500");
+    }
+}
+
+module.exports = errorHandler;
