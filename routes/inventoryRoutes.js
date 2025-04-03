@@ -1,10 +1,12 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
+const invController = require("../controllers/inventoryController");
+const utilities = require("../utilities");
 
-// Ensure you're importing the controller correctly
-const inventoryController = require('../controllers/inventoryController');  // Check this path
+// Route to build inventory by classification view
+router.get("/type/:classificationId", utilities.handleErrors(invController.buildByClassificationId));
 
-// Check the route handler and ensure you're referencing the correct function in the controller
-router.get('/vehicle/:id', inventoryController.showVehicleDetails);  // Ensure this function is defined in the controller
+// Route to build vehicle detail view
+router.get("/detail/:invId", utilities.handleErrors(invController.buildByInvId));
 
 module.exports = router;

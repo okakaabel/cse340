@@ -1,8 +1,13 @@
-<% const d = new Date()
-let year = d.getFullYear() %>
 <footer>
-    <p><a href="/account/tickets">Create Ticket</a></p>
-    <p><a href="/">Go back to safety!</a></p>
-    <p class="copyright">&copy; <%= year %>, CSE 340 App</p>
+    <div class="footer-content">
+        <p>&copy; <span id="currentYear"></span> CSE Motors | All Rights Reserved</p>
+        <p><a href="/error/trigger-error" class="error-link">Trigger 500 Error (Test)</a></p>
+        <p>Last Updated: <span id="lastModified"></span></p>
+    </div>
+    <script src="/js/scripts.js"></script>
+    <script>
+        // Update year and last modified automatically
+        document.getElementById('currentYear').textContent = new Date().getFullYear();
+        document.getElementById('lastModified').textContent = document.lastModified;
+    </script>
 </footer>
-</div>
