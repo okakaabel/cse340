@@ -1,15 +1,25 @@
-const inventoryModel = require("../models/inventoryModel");
-const utilities = require("../utilities/index");
-async function getVehicleDetails(req, res, next) {
-    try {
-        const vehicle = await inventoryModel.getVehicleById(req.params.id);
-        if (!vehicle) {
-            return res.status(404).render("errors/404", { title: "Vehicle Not Found" });
-        }
-        const vehicleHTML = utilities.buildVehicleHTML(vehicle);
-        res.render("inventory/detail", { title: `${vehicle.make} ${vehicle.model}`, vehicleHTML });
-    } catch (error) {
-        next(error);
-    }
-}
-module.exports = { getVehicleDetails };
+const inventoryModel = require('../models/inventory-model');
+const utilities = require('../utilities');
+
+const showVehicleDetails = (req, res, next) => {
+    const vehicleId = req.params.id;
+
+    // Get the vehicle details using the model
+    inventoryModel.getVehicleDetails(vehicleId)
+        .then(vehicle => {
+            // Wrap the vehicle information in HTML using utility function
+            const vehicleHtml = utilities.buildVehicleHtml(vehicle);
+            res.render('inventory/vehicle-detail', { 
+                title: `${vehicle.make} ${vehicle.model}`,
+                vehicleHtml: vehicleHtml,
+                vehicle: vehicle
+            });
+        })
+        .catch(error => {
+            next(error);  // Pass the error to the error handler middleware
+        });
+};
+
+module.exports = {
+    showVehicleDetails
+};
