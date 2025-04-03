@@ -1,4 +1,4 @@
-const pool = require("../database/db.sql");
+const pool = require("../database/db");
 async function getVehicleById(id) {
     try {
         const result = await pool.query("SELECT * FROM inventory WHERE inventory_id = $1", [id]);
