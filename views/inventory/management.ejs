@@ -1,0 +1,39 @@
+<!-- Content Heading -->
+<% if (title) { %>
+    <h1><%= title %></h1>
+    <% } else {
+      res.redirect('/')
+    } %>
+
+<!-- Message Block -->
+<%- messages() %>
+
+<section class="management-container">
+  <form action="/inv/add-classification" method="get" class="management-button">
+      <button type="submit">Add New Classification</button>
+  </form>
+
+
+  <form action="/inv/add-inventory" method="get" class="management-button">
+      <button type="submit">Add New Inventory</button>
+  </form>
+
+  <h2>Manage Inventory</h2>
+  <p>Select a classification from the list to see items belonging to it.</p>
+  <form id="add-id-form" action="/inv/add-inventory" method="POST">
+    <label for="classification_id">Classification</label>
+    <select name="classification_id" id="classificationList" required>
+      <% classifications.forEach(classification => { %>
+        <option 
+          value="<%= classification.classification_id %>" 
+          <%= classification.classification_id == locals.classification_id ? "selected" : "" %>>
+          <%= classification.classification_name %>
+        </option>
+      <% }) %>
+    </select>
+    </form>
+    <table id="inventoryDisplay"></table>
+    <noscript>JavaScript must be enabled to use this page.</noscript>
+</section>
+
+<script src="../../js/inventory.js"></script>

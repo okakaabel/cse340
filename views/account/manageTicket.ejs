@@ -1,0 +1,81 @@
+    <!-- Admin Tickets Management Section -->
+    <% if (locals?.accountData?.account_type === 'Admin') { %>
+        <section id="admin-tickets">
+          <h2>Manage Tickets</h2>
+          <% if (tickets && tickets.length > 0) { %>
+            <table>
+              <thead>
+                <tr>
+                  <th>Title</th>
+                  <th>Description</th>
+                  <th>Priority</th>
+                  <th>Status</th>
+                  <th>Response</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% tickets.forEach(ticket => { %>
+                  <tr>
+                    <form action="/tickets" method="POST">
+                      <input type="hidden" name="ticket_id" value="<%= ticket.ticket_id %>">
+                      <td><%= ticket.title %></td>
+                      <td><%= ticket.description %></td>
+                      <td><%= ticket.priority %></td>
+                      <td>
+                        <select name="status">
+                          <option value="Open" <%= ticket.status === 'Open' ? 'selected' : '' %>>Open</option>
+                          <option value="In Progress" <%= ticket.status === 'In Progress' ? 'selected' : '' %>>In Progress</option>
+                          <option value="Resolved" <%= ticket.status === 'Resolved' ? 'selected' : '' %>>Resolved</option>
+                        </select>
+                      </td>
+                      <td>
+                        <textarea name="admin_response"><%= ticket.admin_response || "" %></textarea>
+                      </td>
+                      <td>
+                        <button type="submit">Update</button>
+                      </td>
+                    </form>
+                  </tr>
+                <% }) %>
+              </tbody>
+            </table>
+          <% } else { %>
+            <p>No tickets available for management.</p>
+          <% } %>
+        </section>
+      <% } %>
+  <!-- User Tickets Section -->
+  <% if (locals?.accountData?.account_type !== 'Admin') { %>
+    <section id="user-tickets">
+      <h2>My Tickets</h2>
+      <% if (tickets && tickets.length > 0) { %>
+        <table>
+          <thead>
+            <tr>
+              <th>Title</th>
+              <th>Description</th>
+              <th>Priority</th>
+              <th>Status</th>
+              <th>Response</th>
+              <th>Submitted At</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% tickets.forEach(ticket => { %>
+              <tr>
+                <td><%= ticket.title %></td>
+                <td><%= ticket.description %></td>
+                <td><%= ticket.priority %></td>
+                <td><%= ticket.status %></td>
+                <td><%= ticket.admin_response || "N/A" %></td>
+                <td><%= ticket.created_at %></td>
+              </tr>
+            <% }) %>
+          </tbody>
+        </table>
+      <% } else { %>
+        <p>You have no tickets submitted yet.</p>
+      <% } %>
+    </section>
+  <% } %>

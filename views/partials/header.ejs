@@ -1,0 +1,14 @@
+<div class="container">
+    <!-- Header -->
+    <div class="header">
+      <h1>CSE Motors</h1>
+      <% if (loggedIn) { %>
+        <a href="/account/account">Manage Account</a>
+        <% if (accountType === 'Employee' || accountType === 'Admin') { %>
+          <a href="/inv">Inventory Management</a>
+        <% } %>
+        <a href="/account/logout">Logout</a>
+      <% } else { %>
+        <a href="/account/login">My Account</a>
+      <% } %>
+    </div>

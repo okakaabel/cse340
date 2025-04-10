@@ -1,0 +1,52 @@
+<!-- Content Heading -->
+<% if (title) { %>
+    <h1><%= title %></h1>
+    <% } else {
+      res.redirect('/')
+    } %>
+  
+  <!-- Message Block -->
+  <%- messages() %>
+  
+  <form id="add-id-form" action="/inv/add-inventory" method="POST" class="form-container">
+    <label for="classification_id">Classification</label>
+    <select name="classification_id" id="classification_id" required>
+      <% classifications.forEach(classification => { %>
+        <option 
+          value="<%= classification.classification_id %>" 
+          <%= classification.classification_id == locals.classification_id ? "selected" : "" %>>
+          <%= classification.classification_name %>
+        </option>
+      <% }) %>
+    </select>
+  
+    <label for="inv_make">Make</label>
+    <input type="text" id="inv_make" name="inv_make" required minlength="3" value="<%= locals.inv_make || '' %>">
+  
+    <label for="inv_model">Model</label>
+    <input type="text" id="inv_model" name="inv_model" required minlength="3" value="<%= locals.inv_model || '' %>">
+  
+    <label for="inv_year">Year</label>
+    <input type="text" id="inv_year" name="inv_year" required pattern="\d{4}" value="<%= locals.inv_year || '' %>">
+  
+    <label for="inv_description">Description</label>
+    <textarea id="inv_description" name="inv_description" required><%= locals.inv_description || '' %></textarea>
+  
+    <label for="inv_thumbnail">Thumbnail URL</label>
+    <input type="url" id="inv_thumbnail" name="inv_thumbnail" value="<%= locals.inv_thumbnail || '' %>" required>
+  
+    <label for="inv_image">Image URL</label>
+    <input type="url" id="inv_image" name="inv_image" value="<%= locals.inv_image || '' %>" required>
+  
+    <label for="inv_price">Price</label>
+    <input type="number" id="inv_price" name="inv_price" value="<%= locals.inv_price || '' %>" required step="0.01">
+  
+    <label for="inv_miles">Mileage</label>
+    <input type="text" id="inv_miles" name="inv_miles" value="<%= locals.inv_miles || '' %>" required pattern="\d+">
+  
+    <label for="inv_color">Color</label>
+    <input type="text" id="inv_color" name="inv_color" value="<%= locals.inv_color || '' %>" required>
+  
+    <button type="submit">Add Inventory</button>
+  </form>
+  

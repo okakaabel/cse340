@@ -1,0 +1,36 @@
+
+<h1><%= title %></h1>
+
+<%- messages() %>
+
+<% if (errors) { %>
+<ul class="notice">
+<% errors.array().forEach(error => { %>
+    <li><%= error.msg %></li>
+<%  }) %>
+</ul>
+<% } %>
+    <!-- Ticket Submission Section -->
+    <% if (locals?.accountData?.account_type !== 'Admin') { %>
+      <section id="submit-ticket" class="form-container">
+        <h2>Submit a Ticket</h2>
+        <form action="/account/tickets" method="POST">
+          <label for="title">Title:</label><br>
+          <input type="text" id="title" name="title" required><br><br>
+
+          <label for="description">Description:</label><br>
+          <textarea id="description" name="description" required></textarea><br><br>
+
+          <label for="priority">Priority:</label><br>
+          <select id="priority" name="priority">
+            <option value="Low">Low</option>
+            <option value="Medium">Medium</option>
+            <option value="High">High</option>
+          </select><br><br>
+
+          <button type="submit">Submit Ticket</button>
+        </form>
+      </section>
+    <% } %>
+
+    

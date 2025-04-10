@@ -1,0 +1,19 @@
+<!-- Content Heading -->
+<% if (title) { %>
+    <h1><%= title %></h1>
+    <% } else {
+      res.redirect('/')
+    } %>
+  
+  <!-- Message Block -->
+  <%- messages() %>
+  
+  <form id="add-class-form" action="/inv/add-classification" method="post" class="form-container">
+    <h2>Add Classification</h2>
+  
+    <label for="classification">Classification Name</label>
+    <div>(Must be only alphabetic characters and 3 or more characters)</div>
+    <input type="text" id="add-class" name="classification_name" placeholder="Enter classification name" pattern="[A-Za-z]+" required>
+    
+    <button type="submit">Add Classification</button>
+  </form>
