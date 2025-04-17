@@ -1,0 +1,35 @@
+<div class="container">
+    <h1>Edit Review for <%= review.inv_year %> <%= review.inv_make %> <%= review.inv_model %></h1>
+    
+    <% if (locals.errors) { %>
+      <ul class="notice">
+        <% errors.forEach(error => { %>
+          <li><%= error.msg %></li>
+        <% }) %>
+      </ul>
+    <% } %>
+    <% if (locals.message) { %>
+      <p class="notice"><%= message %></p>
+    <% } %>
+  
+    <form id="reviewForm" action="/reviews/update" method="post">
+      <input type="hidden" name="review_id" value="<%= review.review_id %>">
+      
+      <label for="review_rating">Rating:</label>
+      <select id="review_rating" name="review_rating" required>
+        <option value="5" <%= review.review_rating == 5 ? 'selected' : '' %>>5 - Excellent</option>
+        <option value="4" <%= review.review_rating == 4 ? 'selected' : '' %>>4 - Very Good</option>
+        <option value="3" <%= review.review_rating == 3 ? 'selected' : '' %>>3 - Good</option>
+        <option value="2" <%= review.review_rating == 2 ? 'selected' : '' %>>2 - Fair</option>
+        <option value="1" <%= review.review_rating == 1 ? 'selected' : '' %>>1 - Poor</option>
+      </select>
+      
+      <label for="review_text">Your Review:</label>
+      <textarea id="review_text" name="review_text" rows="5" required><%= review.review_text %></textarea>
+      
+      <div class="form-buttons">
+        <button type="submit">Update Review</button>
+        <a href="/reviews/vehicle/<%= review.inv_id %>" class="btn-secondary">Cancel</a>
+      </div>
+    </form>
+  </div>

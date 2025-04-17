@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= title %></title>
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+  <header>
+    <div class="header-content">
+      <div class="logo">
+        <h1>CSE Motors</h1>
+      </div>
+      <div class="account">
+        <a href="/account" title="Account">Account</a>
+      </div>
+    </div>
+  </header>
+  <nav>
+    <%= nav %>
+  </nav>
+  <main class="main-content">
+    <%- body %>
+  </main>
+  <footer>
+    <p>&copy; 2025, CSE 340 App</p>
+    <a href="/error-test" title="Generate an error">Test Error Handling</a>
+  </footer>
+</body>
+</html>

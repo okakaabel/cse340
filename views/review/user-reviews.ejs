@@ -1,0 +1,34 @@
+<div class="container">
+    <h1>Your Reviews</h1>
+    
+    <% if (reviews.length === 0) { %>
+      <p>You haven't reviewed any vehicles yet.</p>
+      <a href="/inv" class="btn">Browse Vehicles</a>
+    <% } else { %>
+      <div class="user-reviews-list">
+        <% reviews.forEach(review => { %>
+          <div class="review-card">
+            <div class="review-vehicle">
+              <h3><%= review.inv_year %> <%= review.inv_make %> <%= review.inv_model %></h3>
+              <a href="/inv/detail/<%= review.inv_id %>" class="vehicle-link">View Vehicle</a>
+            </div>
+            <div class="review-details">
+              <div class="review-rating">
+                <% for(let i = 1; i <= 5; i++) { %>
+                  <span class="star <%= i <= review.review_rating ? 'filled' : '' %>">★</span>
+                <% } %>
+              </div>
+              <p class="review-date"><%= new Date(review.review_date).toLocaleDateString() %></p>
+              <div class="review-content">
+                <p><%= review.review_text %></p>
+              </div>
+              <div class="review-actions">
+                <a href="/reviews/edit/<%= review.review_id %>">Edit</a>
+                <a href="/reviews/delete/<%= review.review_id %>" onclick="return confirm('Are you sure you want to delete this review?')">Delete</a>
+              </div>
+            </div>
+          </div>
+        <% }) %>
+      </div>
+    <% } %>
+  </div>

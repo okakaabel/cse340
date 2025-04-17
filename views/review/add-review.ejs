@@ -1,0 +1,31 @@
+<div class="container">
+    <h1>Add a Review</h1>
+    <% if (locals.errors) { %>
+      <ul class="notice">
+        <% errors.forEach(error => { %>
+          <li><%= error.msg %></li>
+        <% }) %>
+      </ul>
+    <% } %>
+    <% if (locals.message) { %>
+      <p class="notice"><%= message %></p>
+    <% } %>
+  
+    <form id="reviewForm" action="/reviews/add" method="post">
+      <input type="hidden" name="inv_id" value="<%= locals.inv_id %>">
+      
+      <label for="review_rating">Rating:</label>
+      <select id="review_rating" name="review_rating" required>
+        <option value="5">5 - Excellent</option>
+        <option value="4">4 - Very Good</option>
+        <option value="3">3 - Good</option>
+        <option value="2">2 - Fair</option>
+        <option value="1">1 - Poor</option>
+      </select>
+      
+      <label for="review_text">Your Review:</label>
+      <textarea id="review_text" name="review_text" rows="5" required></textarea>
+      
+      <button type="submit">Submit Review</button>
+    </form>
+  </div>

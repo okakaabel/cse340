@@ -1,0 +1,71 @@
+<div class="container">
+    <h1>Reviews for <%= vehicle.inv_year %> <%= vehicle.inv_make %> <%= vehicle.inv_model %></h1>
+    
+    <section class="vehicle-summary">
+      <img src="<%= vehicle.inv_image %>" alt="<%= vehicle.inv_make %> <%= vehicle.inv_model %>">
+      <div class="vehicle-details">
+        <h2><%= vehicle.inv_year %> <%= vehicle.inv_make %> <%= vehicle.inv_model %></h2>
+        <p class="vehicle-price">$<%= new Intl.NumberFormat('en-US').format(vehicle.inv_price) %></p>
+        <p><%= vehicle.inv_description %></p>
+        <p class="rating-summary">
+          Average Rating: <%= averageRating %>/5 (<%= reviewCount %> reviews)
+        </p>
+        <% if (locals.accountData && !userReview) { %>
+          <a href="/reviews/add/<%= vehicle.inv_id %>" class="btn">Write a Review</a>
+        <% } %>
+      </div>
+    </section>
+  
+    <section class="reviews-list">
+      <h2>Customer Reviews</h2>
+      
+      <% if (userReview) { %>
+        <div class="user-review">
+          <h3>Your Review</h3>
+          <div class="review-card">
+            <div class="review-rating">
+              <% for(let i = 1; i <= 5; i++) { %>
+                <span class="star <%= i <= userReview.review_rating ? 'filled' : '' %>">★</span>
+              <% } %>
+            </div>
+            <p class="review-date"><%= new Date(userReview.review_date).toLocaleDateString() %></p>
+            <div class="review-content">
+              <p><%= userReview.review_text %></p>
+            </div>
+            <div class="review-actions">
+              <a href="/reviews/edit/<%= userReview.review_id %>">Edit</a>
+              <a href="/reviews/delete/<%= userReview.review_id %>" onclick="return confirm('Are you sure you want to delete your review?')">Delete</a>
+            </div>
+          </div>
+        </div>
+      <% } %>
+      
+      <% if (reviews.length === 0) { %>
+        <p>No reviews yet. Be the first to review this vehicle!</p>
+      <% } else { %>
+        <% reviews.forEach(review => { %>
+          <% if (!userReview || review.review_id !== userReview.review_id) { %>
+            <div class="review-card">
+              <div class="review-header">
+                <div class="review-rating">
+                  <% for(let i = 1; i <= 5; i++) { %>
+                    <span class="star <%= i <= review.review_rating ? 'filled' : '' %>">★</span>
+                  <% } %>
+                </div>
+                <p class="reviewer-name">By: <%= review.account_firstname %> <%= review.account_lastname %></p>
+                <p class="review-date"><%= new Date(review.review_date).toLocaleDateString() %></p>
+              </div>
+              <div class="review-content">
+                <p><%= review.review_text %></p>
+              </div>
+              <% if (locals.accountData && (locals.accountData.account_type === "Admin")) { %>
+                <div class="review-actions admin-actions">
+                  <a href="/reviews/delete/<%= review.review_id %>" onclick="return confirm('Are you sure you want to delete this review?')">Delete</a>
+                </div>
+              <% } %>
+            </div>
+          <% } %>
+        <% }) %>
+      <% } %>
+    </section>
+  </div>

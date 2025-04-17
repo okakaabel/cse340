@@ -1,35 +1,55 @@
-<section class="frame">
+<div class="register-container">
+  <h1><%= title %></h1>
 
-    <h1><%= title %></h1>
+  <% if (messages() && messages().length > 0) { %>
+    <div class="flash-message">
+      <% messages().forEach(message => { %>
+        <p><%= message %></p>
+      <% }) %>
+    </div>
+  <% } %>
 
-    <%- messages() %>
+  
 
-    <% if (errors) { %>
-    <ul class="notice">
-    <% errors.array().forEach(error => { %>
-        <li><%= error.msg %></li>
-    <%  }) %>
-    </ul>
-    <% } %>
+  <form action="/account/register" method="post" class="register-form">
+    <div class="form-group">
+      <label for="account_firstname">First name</label>
+      <input type="text" id="account_firstname" name="account_firstname" required value="<%= locals.account_firstname %>">
+    </div>
+    <div class="form-group">
+      <label for="account_lastname">Last name</label>
+      <input type="text" id="account_lastname" name="account_lastname" required value="<%= locals.account_lastname %>">
+    </div>
+    <div class="form-group">
+      <label for="account_email">Email address</label>
+      <input type="email" id="account_email" name="account_email" required value="<%= locals.account_email %>">
+    </div>
+    <div class="form-group">
+      <label for="account_password">Password</label>
+      <div class="password-input-container">
+        <input type="password" id="account_password" name="account_password" required pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{12,}$">
+        <button type="button" class="toggle-password" id="toggle-password">Show</button>
+      </div>
+      <div class="password-requirements">
+        <p>Password must be:</p>
+        <ul>
+          <li>12 characters in length, minimum</li>
+          <li>contain at least 1 capital letter</li>
+          <li>contain at least 1 number</li>
+          <li>contain at least 1 special character</li>
+        </ul>
+      </div>
+    </div>
+    <div class="form-group">
+      <button type="submit" class="register-btn">Register</button>
+    </div>
+  </form>
+  
+  <div class="login-link">
+    <p>Already have an account? <a href="/account/login">Login</a></p>
+  </div>
+</div>
+<script src="/js/script.js"></script>
 
-    <form action="/account/register" method="post" class="form-container">
 
-        <label for="account_firstname">First Name</label><br>
-        <input type="text" id="accountFirstname" name="account_firstname" placeholder="Jhon" required value="<%= locals.account_firstname %>">
 
-        <label for="account_lastname">Last Name</label><br>
-        <input type="text" id="accountLastname" name="account_lastname" placeholder="Doe" required value="<%= locals.account_lastname %>">
-
-        <label for="account_email">Email</label><br>
-        <input type="email" id="accountEmail" name="account_email" placeholder="your@email.com" required value="<%= locals.account_email %>">
-
-        <label for="accountPassword">Password:</label> 
-             
-        <input type="password" name="account_password" id="accountPassword" required pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{12,}$">
-        <span>Passwords must be at least 12 characters and contain at least 1 number, 1 capital letter and 1 special character</span>
-
-        <input type="submit" value="register">
-
-    </form>
-
-</section>

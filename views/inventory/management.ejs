@@ -1,39 +1,29 @@
-<!-- Content Heading -->
-<% if (title) { %>
-    <h1><%= title %></h1>
-    <% } else {
-      res.redirect('/')
-    } %>
+<main>
+    <div class="container">
+      <h1><%= title %></h1>
+      
+      <%- messages() %>
+  
+      <div class="management-links">
+        <h2>Inventory Management</h2>
+        <p>Welcome to the inventory management section. Select from the following options:</p>
+        <ul>
+          <li><a href="/inv/add-classification">Add New Classification</a></li>
+          <li><a href="/inv/add-inventory">Add New Inventory</a></li>
+        </ul>
+      </div>
 
-<!-- Message Block -->
-<%- messages() %>
+      <h2>Manage Inventory</h2>
+     <p>Select a classification from the list to see the items belonging to the classification.</p>
 
-<section class="management-container">
-  <form action="/inv/add-classification" method="get" class="management-button">
-      <button type="submit">Add New Classification</button>
-  </form>
+     <%- classificationSelect %>
 
+     <table id="inventoryDisplay"></table>
 
-  <form action="/inv/add-inventory" method="get" class="management-button">
-      <button type="submit">Add New Inventory</button>
-  </form>
-
-  <h2>Manage Inventory</h2>
-  <p>Select a classification from the list to see items belonging to it.</p>
-  <form id="add-id-form" action="/inv/add-inventory" method="POST">
-    <label for="classification_id">Classification</label>
-    <select name="classification_id" id="classificationList" required>
-      <% classifications.forEach(classification => { %>
-        <option 
-          value="<%= classification.classification_id %>" 
-          <%= classification.classification_id == locals.classification_id ? "selected" : "" %>>
-          <%= classification.classification_name %>
-        </option>
-      <% }) %>
-    </select>
-    </form>
-    <table id="inventoryDisplay"></table>
     <noscript>JavaScript must be enabled to use this page.</noscript>
-</section>
+    <script src="../../js/inventory.js"></script>
+    
+    </div>
 
-<script src="../../js/inventory.js"></script>
+  </main>
+  

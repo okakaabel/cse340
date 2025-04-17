@@ -1,31 +1,52 @@
-<!-- Content Heading -->
-<% if (title) { %>
-    <h1><%= title %></h1>
-    <% } else {
-      res.redirect('/')
-    } %>
-
-<!-- Message Block -->
+<h1><%- title %></h1>
 <%- messages() %>
+    <% if (errors) { %>
+        <ul class="notice">
+            <% errors.array().forEach(error=> { %>
+                <li>
+                    <%= error.msg %>
+                </li>
+                <% }) %>
+        </ul>
+        <% } %>
 
-  
-<form action="/account/update" class="form-container" method="POST">
-  <label for="account_firstname">First Name</label>
-  <input type="text" id="account_firstname" name="account_firstname" value="<%= locals.account_firstname %>">
+            <form class="input-box" action="/account/update" method="post">
+                <label>First name<input type="text" name="account_firstname" required autocomplete="given-name"
+                        value="<%= locals.account_firstname %>"></label>
+                <label>Last name<input type="text" name="account_lastname" required autocomplete="family-name"
+                        value="<%= locals.account_lastname %>"></label>
+                <label>Email address<input type="email" name="account_email" required autocomplete="email"
+                        value="<%= locals.account_email %>"></label>
 
-  <label for="account_lastname">Last Name</label>
-  <input type="text" id="account_lastname" name="account_lastname" value="<%= locals.account_lastname %>">
+                <input type="submit" value="UPDATE">
+                <input type="hidden" name="account_id" value="<%= locals.account_id %>">
+                <input type="hidden" name="old_email" value="<%= locals.account_email %>">
+                <%# To exclude from existing email search %>
+            </form>
 
-  <label for="account_email">Email</label>
-  <input type="email" id="account_email" name="account_email" value="<%= locals.account_email %>">
-  
-  <input type="hidden" name="account_id" value="<%= locals.account_id %>">
-  <button type="submit">Update Account</button>
-</form>
+            <form class="input-box" action="/account/update-password" method="post">
+                <label>Password<input type="password" name="account_password" id="password" required
+                        autocomplete="new-password" pattern="^(?=.*[A-Z])(?=.*\d)(?=.*[^\w\s]).{12,}$"><span
+                        class="reveal-button active" id="passwordHide">hide password</span></label>
+                <span class="fine-print">Password must be 12 characters or longer, contain 1 capital letter, 1 number
+                    and 1 special character. This will change your current password.</span>
+                <input type="submit" value="CHANGE PASSWORD">
+                <input type="hidden" name="account_id" value="<%= locals.account_id %>">
+            </form>
 
-<form action="/account/change-password" class="form-container" method="POST">
-  <label for="new_password">New Password</label>
-  <input type="password" id="new_password" name="new_password">
-  <input type="hidden" name="account_id" value="<%= locals.account_id %>">
-  <button type="submit">Change Password</button>
-</form>
+
+            <!-- Script to handle hiding and revealing password field -->
+            <script>
+                const passwordInput = document.querySelector("#password");
+                const passwordHide = document.querySelector("#passwordHide");
+                passwordHide.addEventListener("click", () => {
+                    if (passwordInput.getAttribute("type") == "password") {
+                        passwordInput.setAttribute("type", "text");
+                        passwordHide.classList.remove("active");
+                    }
+                    else {
+                        passwordInput.setAttribute("type", "password");
+                        passwordHide.classList.add("active");
+                    }
+                })
+            </script>

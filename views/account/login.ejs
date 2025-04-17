@@ -1,31 +1,33 @@
-<section class="frame">
+<div class="login-container">
+  <h1><%= title %></h1>
 
-    <h1><%= title %></h1>
+  <% if (messages() && messages().length > 0) { %>
+    <div class="flash-message">
+      <% messages().forEach(message => { %>
+        <p><%= message %></p>
+      <% }) %>
+    </div>
+  <% } %>
 
-    <%- messages() %>
+  <form id="loginForm" action="/account/login" method="post" class="login-form">
+    <div class="form-group">
+      <label for="account_email">Email:</label>
+      <input type="email" id="account_email" name="account_email" required>
+    </div>
+    <div class="form-group">
+      <label for="account_password">Password:</label>
+      <input type="password" id="account_password" name="account_password" required>
+    </div>
+    <div class="form-group">
+      <button type="submit" class="login-btn">LOGIN</button>
+    </div>
 
-    <% if (errors) { %>
-        <ul class="notice">
-        <% errors.array().forEach(error => { %>
-            <li><%= error.msg %></li>
-        <%  }) %>
-        </ul>
-        <% } %>
+    <div class="no-account">
+      <p>No account? <a href="/account/register">Sign-up</a></p>
+    </div>
+  </form>
+  
+  
+</div>
+<script src="js/server.js"></script>
 
-    <form action="/account/login" method="post" class="form-container" id="loginForm">
-
-        <label for="account_email">Email</label><br>
-        <input type="email" id="account_email" name="account_email" required value="<%= locals.account_email %>"><br>
-
-        <label for="account_password">Password</label><br>
-        <input type="password" id="account_password" name="account_password" pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{12,}$" required><br>
-
-        <input type="submit" value="login">
-
-        <p id="registration">
-            No account? <a href="/account/register">Sign-up</a>
-        </p>
-
-    </form>
-
-</section>

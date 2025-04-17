@@ -1,62 +1,66 @@
-// Needed Resources
-const express = require("express");
-const router = new express.Router();
-const accountController = require("../controllers/accountController");
-const utilities = require("../utilities/");
-const { registationRules, checkRegData, loginRules, checkLoginData } = require('../utilities/account-validation');
+const regValidate = require('../utilities/accountValidation')
+const utilities = require("../utilities/")
+const accountController = require("../controllers/accountController")
+const express = require("express")
+const router = new express.Router()
 
-// Route for when 'My Account' is clicked
-router.get("/login", utilities.handleErrors(accountController.buildLogin));
+// Route to build registration view
+router.get("/register", utilities.handleErrors(accountController.buildRegister))
 
-// Route for register button
-router.get("/register", utilities.handleErrors(accountController.buildRegistration));
-
-router.get("/account", utilities.checkJWTToken, (req, res) => {
-  if (!res.locals.accountData) {
-    req.flash("notice", "Please log in to access this page.");
-    return res.redirect("/account/login");
-  }
-
-  const title = "My Account";
-  res.render("account/account", {
-    title,
-    nav: res.locals.nav,
-    user: res.locals.accountData,
-  });
-});
-
-// Route for submitting register form
+// Process the registration data
 router.post(
-  '/register',
-  registationRules(),
-  checkRegData,
+  "/register",
+  regValidate.registrationRules(),
+  regValidate.checkRegData,
   utilities.handleErrors(accountController.registerAccount)
 );
+
+router.get("/login", utilities.handleErrors(accountController.buildLogin))
 
 // Process the login request
 router.post(
   "/login",
-  loginRules(),
-  checkLoginData,
+  regValidate.loginValidationRules(),
+  regValidate.checkLoginData,
   utilities.handleErrors(accountController.accountLogin)
-);
+)
 
-// Routes for updating account information
-router.get("/update", utilities.handleErrors(accountController.buildUpdateView));
-router.post("/update", utilities.handleErrors(accountController.updateAccount));
-router.post("/change-password", utilities.handleErrors(accountController.changePassword));
+// Account management route - requires login to access
+router.get(
+  "/",
+  utilities.checkLogin,  // Use checkLogin instead of checkLoginData
+  utilities.handleErrors(accountController.accountManagement)
+)
 
-// Route for logout
-router.get("/logout", (req, res) => {
-  res.clearCookie("jwt");
-  res.redirect("/");
-});
+// Process password update
+router.post(
+  "/update-password",
+  utilities.checkLogin,  // Use checkLogin instead of checkLoginData
+  regValidate.passwordValidationRule(),
+  regValidate.checkPasswordData,
+  utilities.handleErrors(accountController.updatePassword)
+)
 
-// Tickets route
-router.get("/tickets", utilities.checkJWTToken, utilities.handleErrors(accountController.buildSubmitTicketView));
-router.post("/tickets", utilities.checkJWTToken, utilities.handleErrors(accountController.submitTicket));
-router.get("/", utilities.checkJWTToken, utilities.handleErrors(accountController.buildUserTicketsView));
+// Process account information update
+router.post(
+  "/update",
+  utilities.checkLogin,  // Use checkLogin instead of checkLoginData
+  regValidate.accountUpdateRules(),
+  regValidate.checkAccountData,
+  utilities.handleErrors(accountController.updateAccount)
+)
 
-router.get("/myTickets", utilities.handleErrors(accountController.buildUserTicketsView));
+// Route to account update view
+router.get(
+  "/update/:account_id",
+  utilities.checkLogin,  // Use checkLogin instead of checkLoginData
+  utilities.handleErrors(accountController.buildAccountUpdate)
+)
 
-module.exports = router;
+// Process logout
+router.get(
+  "/logout",
+  utilities.handleErrors(accountController.accountLogout)
+)
+
+module.exports = router
