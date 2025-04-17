@@ -1,3 +1,4 @@
+const e = require("express")
 const pool = require("../database/")
 
 /* ***************************
@@ -15,7 +16,7 @@ async function getInventoryByClassificationId(classification_id) {
     const data = await pool.query(
       `SELECT * FROM public.inventory AS i 
       JOIN public.classification AS c 
-      ON i.classification_id = c.classification_id  
+      ON i.classification_id = c.classification_id 
       WHERE i.classification_id = $1`,
       [classification_id]
     )
@@ -25,146 +26,123 @@ async function getInventoryByClassificationId(classification_id) {
   }
 }
 
-/* ****************************************
-*  Model to update inventory item info
-* *************************************** */
-const updateInventory = async (data) => {
-  const sql = `
-    UPDATE public.inventory
-    SET
-      classification_id = $1,
-      inv_make = $2,
-      inv_model = $3,
-      inv_year = $4,
-      inv_description = $5,
-      inv_image = $6,
-      inv_thumbnail = $7,
-      inv_price = $8,
-      inv_miles = $9,
-      inv_color = $10
-    WHERE inv_id = $11
-  `;
+// /** Creating a new model for a single vehicle inventory */
 
-  const values = [
-    data.classification_id,
-    data.inv_make,
-    data.inv_model,
-    data.inv_year,
-    data.inv_description,
-    data.inv_image,
-    data.inv_thumbnail,
-    data.inv_price,
-    data.inv_miles,
-    data.inv_color,
-    data.inv_id,
-  ];
-
-  try {
-    const result = await pool.query(sql, values);
-    return result;
-  } catch (err) {
-    console.error("Error in updateInventory:", err);
-    throw err;
-  }
-};
-
-
-/* ***************************
- *  Get all deatails on a specific vehicle by inventory id
- * ************************** */
-async function getDetailByVehicleId(inv_id) {
+async function getInventoryByInvId(inv_id) {
   try {
     const data = await pool.query(
-      `SELECT * FROM public.inventory
-      WHERE inv_id = $1`,
+      `SELECT * FROM public.inventory WHERE inv_id = $1`,
       [inv_id]
     );
-    return data.rows[0];
+    return data.rows;
   } catch (error) {
-    console.error("Get Details By Vehicle Id error " + error);
+    console.error('getInventoryByInvId error ' + error);
   }
 }
-
 
 /* ***************************
- *  Add Classification if not already in system
+ *  Add new classification
  * ************************** */
-async function addClass(classification_name) {
+async function addClassification(classification_name) {
   try {
-    console.log("Checking for existing classification:", classification_name);
-
-    const checkResult = await pool.query(
-      `SELECT classification_name FROM public.classification WHERE classification_name = $1`,
-      [classification_name]
-    );
-    console.log("Check result:", checkResult.rows);
-
-    if (checkResult.rows.length > 0) {
-      console.log("Classification already exists:", classification_name);
-      return { message: "Classification name already exists", success: false };
-    }
-
-    console.log("Inserting new classification:", classification_name);
-
-    const result = await pool.query(
-      `INSERT INTO public.classification (classification_name) 
-       VALUES ($1) 
-       RETURNING *`,
-      [classification_name]
-    );
-
-    console.log("Insert result:", result.rows);
-    return { data: result.rows[0], success: true };
+    const sql = "INSERT INTO classification (classification_name) VALUES ($1) RETURNING *"
+    const data = await pool.query(sql, [classification_name])
+    return data.rows[0]
   } catch (error) {
-    console.error("Error in addClass:", error);
-    throw error;
+    console.error("addClassification error " + error)
+    return null
   }
 }
 
-async function addInventory(data) {
+/* ***************************
+ *  Check if classification exists
+ * ************************** */
+async function checkExistingClassification(classification_name) {
   try {
-    const result = await pool.query(
-      `INSERT INTO public.inventory 
-      (classification_id, inv_make, inv_model, inv_year, inv_description, inv_thumbnail, inv_image, inv_price, inv_miles, inv_color) 
-      VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)
-      RETURNING *`,
-      [
-        data.classification_id,
-        data.inv_make,
-        data.inv_model,
-        data.inv_year,
-        data.inv_description,
-        data.inv_thumbnail,
-        data.inv_image,
-        data.inv_price,
-        data.inv_miles,
-        data.inv_color,
-      ]
-    );
-
-    return { success: true, data: result.rows[0] };
+    const sql = "SELECT * FROM classification WHERE classification_name = $1"
+    const data = await pool.query(sql, [classification_name])
+    return data.rowCount
   } catch (error) {
-    console.error("Error in addInventory:", error);
-    return { success: false };
+    console.error("checkExistingClassification error " + error)
+    return null
   }
 }
 
-/* ****************************************
-*  Model to delete an inventory item
-* *************************************** */
-const deleteInventoryById = async (inv_id) => {
-  const sql = 'DELETE FROM inventory WHERE inv_id = $1';
-
-  const values = [inv_id];
-
+/* ***************************
+ *  Add new inventory item
+ * ************************** */
+async function addInventory(
+  classification_id,
+  inv_make,
+  inv_model,
+  inv_description,
+  inv_image,
+  inv_thumbnail,
+  inv_price,
+  inv_year,
+  inv_miles,
+  inv_color
+) {
   try {
-    const result = await pool.query(sql, values);
-    return result;
-  } catch (err) {
-    console.error("Error in deleteInventoryById:", err);
-    throw err;
+    const sql =
+      "INSERT INTO inventory (classification_id, inv_make, inv_model, inv_description, inv_image, inv_thumbnail, inv_price, inv_year, inv_miles, inv_color) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING *"
+    const data = await pool.query(sql, [
+      classification_id,
+      inv_make,
+      inv_model,
+      inv_description,
+      inv_image,
+      inv_thumbnail,
+      inv_price,
+      inv_year,
+      inv_miles,
+      inv_color
+    ])
+    return data.rows[0]
+  } catch (error) {
+    console.error("addInventory error " + error)
+    return null
   }
-};
+}
 
+/* ***************************
+ *  Update Inventory Data
+ * ************************** */
+async function updateInventory(
+  inv_id,
+  inv_make,
+  inv_model,
+  inv_description,
+  inv_image,
+  inv_thumbnail,
+  inv_price,
+  inv_year,
+  inv_miles,
+  inv_color,
+  classification_id
+) {
+  try {
+    const sql =
+      "UPDATE public.inventory SET inv_make = $1, inv_model = $2, inv_description = $3, inv_image = $4, inv_thumbnail = $5, inv_price = $6, inv_year = $7, inv_miles = $8, inv_color = $9, classification_id = $10 WHERE inv_id = $11 RETURNING *"
+    const data = await pool.query(sql, [
+      inv_make,
+      inv_model,
+      inv_description,
+      inv_image,
+      inv_thumbnail,
+      inv_price,
+      inv_year,
+      inv_miles,
+      inv_color,
+      classification_id,
+      inv_id
+    ])
+    return data.rows[0]
+  } catch (error) {
+    console.error("model error: " + error)
+  }
+}
 
-module.exports = { deleteInventoryById, updateInventory, getClassifications, getInventoryByClassificationId, getDetailByVehicleId, addClass, addInventory }
+module.exports = {getClassifications, getInventoryByClassificationId, getInventoryByInvId, addClassification, checkExistingClassification, addInventory, updateInventory};
+
+ 
